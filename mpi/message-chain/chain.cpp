@@ -28,18 +28,32 @@ int main(int argc, char *argv[])
 
     // TODO: Set source and destination ranks
     // TODO: Treat boundaries with MPI_PROC_NULL
-
+	if (rank < ntasks-1) {
+		destination = rank + 1;
+	}
+	else {
+	        destination = MPI_PROC_NULL; 
+	}
+	
+	if (rank > 0) {
+		source = rank-1;
+	}
+	else {
+		source = MPI_PROC_NULL;
+	}
+    
     // Start measuring the time spent in communication
     MPI_Barrier(MPI_COMM_WORLD);
     t0 = MPI_Wtime();
 
     // TODO: Send messages
 
+    MPI_Send(message.data(), message.size(), MPI_INT, destination, rank+1, MPI_COMM_WORLD);
     printf("Sender: %d. Sent elements: %d. Tag: %d. Receiver: %d\n",
            rank, size, rank + 1, destination);
 
     // TODO: Receive messages
-
+    MPI_Recv(receiveBuffer.data(), size, MPI_INT, source, rank, MPI_COMM_WORLD, &status);
     printf("Receiver: %d. first element %d.\n",
            rank, receiveBuffer[0]);
 
@@ -69,4 +83,4 @@ void print_ordered(double t)
     } else {
         MPI_Send(&t, 1, MPI_DOUBLE, 0, 11, MPI_COMM_WORLD);
     }
-}
+ }
