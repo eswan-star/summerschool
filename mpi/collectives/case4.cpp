@@ -7,12 +7,11 @@
 void init_buffers(std::vector<int> &sendbuffer, std::vector<int> &recvbuffer);
 void print_buffers(std::vector<int> &buffer);
 
+
 int main(int argc, char *argv[])
 {
-    int ntasks, rank, color;
+    int ntasks, rank;
     std::vector<int> sendbuf(2 * NTASKS), recvbuf(2 * NTASKS);
-
-    MPI_Comm sub_comm;
 
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &ntasks);
@@ -31,11 +30,13 @@ int main(int argc, char *argv[])
     /* Print data that will be sent */
     print_buffers(sendbuf);
 
-    /* TODO: create a new communicator and
-     *       use a single collective communication call(and maybe prepare some parameters for the call)*/
-    
-    
+    /* TODO: use a single collective communication call
+     *       (and maybe prepare some parameters for the call)
+     */
+   
+    MPI_Alltoall(sendbuf.data(), 2, MPI_INT, recvbuf.data(), 2, MPI_INT, MPI_COMM_WORLD);
     /* Print data that was received */
+    /* TODO: use correct buffer */
     print_buffers(recvbuf);
 
     MPI_Finalize();

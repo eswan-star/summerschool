@@ -33,8 +33,7 @@ int main(int argc, char *argv[])
 
     /* TODO: create a new communicator and
      *       use a single collective communication call(and maybe prepare some parameters for the call)*/
-    
-    
+    MPI_Scatter(sendbuf.data(), 2, MPI_INT, recvbuf.data(), 2, MPI_INT, 0, MPI_COMM_WORLD);
     /* Print data that was received */
     print_buffers(recvbuf);
 

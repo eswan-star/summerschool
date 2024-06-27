@@ -34,7 +34,10 @@ int main(int argc, char *argv[])
     /* TODO: create a new communicator and
      *       use a single collective communication call(and maybe prepare some parameters for the call)*/
     
-    
+    int counts[NTASKS] = {1, 1, 2, 4};
+    int displs[NTASKS] = {0, 1, 2, 4};
+
+    MPI_Gatherv(sendbuf.data(), counts[rank], MPI_INT, recvbuf.data(), counts, displs, MPI_INT, 1, MPI_COMM_WORLD);
     /* Print data that was received */
     print_buffers(recvbuf);
 
