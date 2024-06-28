@@ -13,6 +13,8 @@ core
 #ignore default binary name
 *.out
 *.err
+*.h5
+
 #ignore heat solver outputs
 heat_*.png
 heat
